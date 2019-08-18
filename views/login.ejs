@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>VWallet - Logowanie</title>
+	</head>
+	<body>
+		<form action="/login" method="POST">
+			<div>
+				<input type="email" name="email" placeholder="Email">
+			</div>
+			<div>
+				<input type="password" name="password" placeholder="Hasło">
+			</div>
+			<div>
+				<input type="submit" value="Zaloguj się" name="login">
+			</div>
+			<% if(typeof message !== 'undefined') { %>
+				<div class="alert"><%= message %></div>
+			<% } %>
+		</form>
+	</body>
+</html>

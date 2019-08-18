@@ -1,0 +1,144 @@
+html, body {
+	height: 100%;
+	scroll-behavior: smooth;
+}
+body {
+	margin: 0;
+	font-family: Calibri;
+	font-size: 18px;
+	color: #303030;
+}
+footer {
+	background-color: #0B5057;
+	padding: 20px;
+	color: #fff;
+	text-align: center;
+}
+header {
+	border-bottom: 1px solid #a3a3a3;
+	padding: 10px 10%;
+	text-align: right;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+}
+section {
+	padding: 20px 30px 50px 30px;
+	text-align: center;
+}
+section:nth-child(2n+1) {
+	background-color: #f1f1f1;
+}
+section > h1 {
+	font-weight: normal;
+	font-size: 2.4em;
+	margin: 20px 0;
+}
+a {
+	color: #0B5057;
+	font-weight: bold;
+	text-decoration: none;
+}
+a:hover {
+	color: #115b63;
+}
+header a {
+	color: inherit;
+}
+header a:hover {
+	color: #ebebeb;
+}
+nav {
+	padding: 0 100px;
+}
+ul {
+	text-align: left;
+}
+.image {
+	padding: 0;
+	background-image: url('../img/VWallet.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center 10%;
+	height: 100%;
+	width: 100%;
+}
+.btn {
+	display: inline-block;
+	border: 1px solid #ffffff;
+	border-radius: 20px;
+	background-color: inherit;
+	color: #ffffff;
+	padding: 10px 18px;
+	text-align: center;
+	font-weight: bold;
+	margin: 0 3px;
+}
+.btn:hover {
+	cursor: pointer;
+	color: #ebebeb;
+	border-color: #ebebeb;
+}
+.btn-filled {
+	background-color: #ffffff;
+	color: #303030;
+}
+.btn-filled:hover {
+	background-color: #ebebeb;
+	border-color: #ebebeb;
+	color: #202020;
+}
+.btn-filled-color {
+	border-color: #0B5057;
+	background-color: #0B5057;
+	color: #ffffff;
+}
+.btn-filled-color:hover {
+	background-color: #115b63;
+	border-color: #115b63;
+	color: #ffffff;
+}
+.btn-color {
+	border-color: #0B5057;
+	background-color: inherit;
+	color: #0B5057;
+}
+.btn-color:hover {
+	background-color: inherit;
+	border-color: #115b63;
+	color: #115b63;
+}
+.menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	color: #ffffff;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+.menu > li {
+	padding: 0;
+	margin: 0;
+	padding: 0 20px;
+}
+.text-container {
+	width: 70%;
+	margin: 0 auto;
+}
+.columns {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.columns > div, .columns > article {
+	padding: 0 5px;
+	box-sizing: border-box;
+}
+.col-3 > div, .col-3 > article {
+	flex-basis: 33%;
+}
+.list-inline {
+	display: inline-block;
+}
