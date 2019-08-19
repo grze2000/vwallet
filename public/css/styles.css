@@ -20,7 +20,7 @@ header {
 	text-align: right;
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-end;
+	justify-content: center;
 	align-items: center;
 }
 section {
@@ -49,9 +49,6 @@ header a {
 header a:hover {
 	color: #ebebeb;
 }
-nav {
-	padding: 0 100px;
-}
 ul {
 	text-align: left;
 }
@@ -70,7 +67,7 @@ ul {
 	border-radius: 20px;
 	background-color: inherit;
 	color: #ffffff;
-	padding: 10px 18px;
+	padding: 8px 18px;
 	text-align: center;
 	font-weight: bold;
 	margin: 0 3px;
@@ -141,4 +138,23 @@ ul {
 }
 .list-inline {
 	display: inline-block;
+}
+.header-columns {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.header-left {
+	justify-content: flex-start;
+	object-fit: cover;
+	height: 100%;
+	flex: 1;
+}
+.header-center {
+	justify-content: center;
+	flex: 2;
+}
+.header-right {
+	justify-content: flex-end;
+	flex: 1;
 }
