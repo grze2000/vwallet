@@ -11,10 +11,6 @@ router.get('/login', auth.checkNotAuth, function(req, res) {
 	res.render('login', {message: req.flash('error')});
 });
 
-router.get('/register', auth.checkNotAuth, function(req, res) {
-	res.render('register');
-});
-
 router.post('/login', function(req, res, next) {
 	if(req.body.email && req.body.password) {
 		passport.authenticate('local', {
@@ -24,6 +20,18 @@ router.post('/login', function(req, res, next) {
 		})(req, res, next);
 	} else {
 		res.render('login', {message: 'Wypelnij wszystkie pola'});
+	}
+});
+
+router.get('/register', auth.checkNotAuth, function(req, res) {
+	res.render('register');
+});
+
+router.post('/register', function(req, res, next) {
+	if(req.body.firstname && req.body.lastname && req.body.email && req.body.password && req.body.password-repeat) {
+
+	} else {
+		res.render('register', {message: 'Wypełnij wszystkie pola'});
 	}
 });
 

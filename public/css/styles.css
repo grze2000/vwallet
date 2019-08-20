@@ -55,6 +55,9 @@ header a:hover {
 ul {
 	text-align: left;
 }
+main {
+	text-align: center;
+}
 .image {
 	padding: 0;
 	background-image: url('../img/VWallet.png');
@@ -158,6 +161,37 @@ ul {
 .header-right {
 	justify-content: flex-end;
 	flex: 1;
+}
+.header-filled {
+	background-color: #0B5057;
+}
+.form {
+	border-radius: 5px;
+	margin: 20px 0;
+	display: inline-block;
+	padding: 25px 50px;
+	-webkit-box-shadow: 0px 0px 7px 0px #0b505750;
+	-moz-box-shadow: 0px 0px 7px 0px #0b505750;
+	box-shadow: 0px 0px 7px 0px #0b505750;
+	background-color: #f7f7f7;
+}
+.form > div {
+	padding: 10px 0;
+}
+.form input[type=text], .form input[type=email], .form input[type=password] {
+	border: 1px solid #0B5057;
+	border-radius: 5px;
+	padding: 8px 15px;
+	width: 300px;
+}
+.gradient {
+	background-image: linear-gradient(135deg, #0B505750, #ffffff);
+}
+.text-small {
+	font-size: 0.85em;
+}
+.alert {
+	color: rgb(214, 0, 0);
 }
 @media only screen and (max-width: 700px) {
 	header {

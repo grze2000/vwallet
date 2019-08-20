@@ -2,28 +2,40 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>VWallet - Logowanie</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="Grzegorz Babiarz">
+		<meta name="description" content="VWallet - Free virtual wallet">
+		<meta name="keywords" content="VWallet, virtual wallet, digital wallet, wallet">
+		<link rel="shortcut icon" href="img/favicon.ico">
+		<link rel="stylesheet" href="css/styles.css">
+		<title>VWallet - Rejestracja</title>
 	</head>
-	<body>
-		<form action="/" method="POST">
-			<div>
-				<input type="text" name="firstname" placeholder="Imię">
-			</div>
-			<div>
-					<input type="text" name="lastname" placeholder="Nazwisko">
+	<body class="gradient">
+		<header class="header-filled">
+			<a href="/"><img src="img/logo-full.png" alt="vwallet" height="40"></a>
+		</header>
+		<main>
+			<form action="/" method="POST" class="form">
+				<div>
+					<input type="text" name="firstname" placeholder="Imię">
 				</div>
-			<div>
-				<input type="email" name="email" placeholder="Email">
-			</div>
-			<div>
-				<input type="password" name="password" placeholder="Hasło">
-			</div>
-			<div>
-					<input type="password" name="password-repeat" placeholder="Powtórz hasło">
+				<div>
+						<input type="text" name="lastname" placeholder="Nazwisko">
+					</div>
+				<div>
+					<input type="email" name="email" placeholder="Email">
 				</div>
-			<div>
-				<input type="submit" value="Załóż konto" name="register">
-			</div>
-		</form>
+				<div>
+					<input type="password" name="password" placeholder="Hasło">
+				</div>
+				<div>
+						<input type="password" name="password-repeat" placeholder="Powtórz hasło">
+					</div>
+				<div>
+					<input type="submit" value="Załóż konto" name="register" class="btn btn-filled-color">
+				</div>
+				<span class="text-small">Masz konto? <a href="/login">Zaloguj się</a></span>
+			</form>
+		</main>
 	</body>
 </html>
