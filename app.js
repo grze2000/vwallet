@@ -5,16 +5,14 @@ const passport = require('passport');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const flash = require('connect-flash');
-
 const routes = require('./routes/index');
 const appRoutes = require('./routes/app');
 const errorsHandler = require('./middlewares/errors');
-const Users = require('./models/users');
 
 require('./config/passport')(passport);
 
 mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true}, (err) => {
-	if(err) console.log(err);
+	if(err) throw err;
 	console.log('Conected to database');
 });
 

@@ -15,26 +15,29 @@
 			<a href="/"><img src="img/logo-full.png" alt="vwallet" height="40"></a>
 		</header>
 		<main>
-			<form action="/" method="POST" class="form">
+			<form action="/register" method="POST" class="form">
 				<div>
-					<input type="text" name="firstname" placeholder="Imię">
+					<input type="text" name="firstname" placeholder="Imię" value="<%= typeof(values) != 'undefined' ? values.firstname : '' %>">
 				</div>
 				<div>
-						<input type="text" name="lastname" placeholder="Nazwisko">
+						<input type="text" name="lastname" placeholder="Nazwisko" value="<%= typeof(values) != 'undefined' ? values.lastname : '' %>">
 					</div>
 				<div>
-					<input type="email" name="email" placeholder="Email">
+					<input type="email" name="email" placeholder="Email" value="<%= typeof(values) != 'undefined' ? values.email : '' %>">
 				</div>
 				<div>
 					<input type="password" name="password" placeholder="Hasło">
 				</div>
 				<div>
-						<input type="password" name="password-repeat" placeholder="Powtórz hasło">
+						<input type="password" name="passwordRepeat" placeholder="Powtórz hasło">
 					</div>
 				<div>
 					<input type="submit" value="Załóż konto" name="register" class="btn btn-filled-color">
 				</div>
 				<span class="text-small">Masz konto? <a href="/login">Zaloguj się</a></span>
+				<% if(typeof(error) != 'undefined') { %>
+					<div class="alert"><%= error.msg %></div>
+				 <% } %>
 			</form>
 		</main>
 	</body>
