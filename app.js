@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -11,7 +13,7 @@ const errorsHandler = require('./middlewares/errors');
 
 require('./config/passport')(passport);
 
-mongoose.connect('mongodb://localhost/test', {useNewUrlParser: true}, (err) => {
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true}, (err) => {
 	if(err) throw err;
 	console.log('Conected to database');
 });
