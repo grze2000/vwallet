@@ -37,6 +37,7 @@ app.use('/app', appRoutes);
 app.use(errorsHandler.notFound);
 app.use(errorsHandler.catchErrors);
 
-app.listen(3000, function() {
-	console.log('Lisening on 3000');
+const port = process.env.PORT || 3000;
+app.listen(port, function() {
+	console.log('Lisening on '+port);
 });
