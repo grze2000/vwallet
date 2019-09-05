@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const auth = require('../middlewares/auth');
 const Users = require('../models/users');
 
-router.get('/', function(req, res) {
+router.get('/', auth.checkNotAuth, function(req, res) {
 	res.render('index');
 });
 
