@@ -194,6 +194,11 @@ main {
 .alert {
 	color: rgb(214, 0, 0);
 }
+.footer-fixed-bottom {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
 @media only screen and (max-width: 700px) {
 	header {
 		height: 100%;

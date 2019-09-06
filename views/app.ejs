@@ -18,12 +18,18 @@
 				</ul>
 			</article>
 			<article class="header-columns header-right">
-				<a href="/logout">Wyloguj sie</a>
+				<a href="/logout">Wyloguj się</a>
 			</article>
 		</header>
 		<main>
-			<% include overview.ejs %>
+			<% if(page == 'overview') { %>
+				<%- include overview %>
+			<% } else if(page == 'payments') { %>
+				<%- include payments %>
+			<% } else if(page == 'topup') { %>
+				<%- include topup %>
+			<% } %>
 		</main>
-		<footer>Copyright &copy; 2019 Grzegorz Babiarz</footer>
+		<footer class="footer-fixed-bottom">Copyright &copy; 2019 Grzegorz Babiarz</footer>
 	</body>
 </html>

@@ -17,7 +17,7 @@ router.get('/login', auth.checkNotAuth, function(req, res) {
 router.post('/login', function(req, res, next) {
 	if(req.body.email && req.body.password) {
 		passport.authenticate('local', {
-			successRedirect: process.env.BASE_URL+'/app/dashboard',
+			successRedirect: process.env.BASE_URL+'/app/overview',
 			failureRedirect: process.env.BASE_URL+'/login',
 			failureFlash: true
 		})(req, res, next);
