@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 require('mongoose-type-email');
 
 const UsersSchema = new Schema({
-//	id: mongoose.Schema.Types.ObjectId,
 	firstname: String,
 	lastname: String,
 	email: mongoose.SchemaTypes.Email,
-	password: String
+	password: String,
+	balance: {type: Number, default: 500.0}
 });
-module.exports = mongoose.model('Users', UsersSchema, 'test1');
+module.exports = mongoose.model('Users', UsersSchema, 'users');

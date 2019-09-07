@@ -195,9 +195,37 @@ main {
 	color: rgb(214, 0, 0);
 }
 .footer-fixed-bottom {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
+	margin-top: auto;
+}
+.top-up-ways-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin: 0 10%;
+}
+.top-up-ways-list > a {
+	display: block;
+	border: 1px solid #0b505750;
+	border-radius: 10px;
+	padding: 15px 35px;
+	box-sizing: border-box;
+	margin: 10px 10px;
+	flex-basis: calc(50% - 20px);
+	
+}
+.top-up-ways-list > a:hover {
+	background-color: #f7f7f7;
+}
+.top-up-ways-list > a img {
+	height: 64px;
+	margin-right: 10px;
+}
+.app-body {
+	display: flex;
+	flex-direction: column;
+}
+.app-main {
+	overflow: auto;
 }
 @media only screen and (max-width: 700px) {
 	header {

@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="/css/styles.css">
 		<title>VWallet</title>
 	</head>
-	<body>
+	<body class="app-body">
 		<header class="header-filled header-columns">
 			<article class="header-columns header-left">
 				<img src="/img/logo-full.png" alt="" height="40">
@@ -21,7 +21,7 @@
 				<a href="/logout">Wyloguj się</a>
 			</article>
 		</header>
-		<main>
+		<main class="app-main">
 			<% if(page == 'overview') { %>
 				<%- include overview %>
 			<% } else if(page == 'payments') { %>

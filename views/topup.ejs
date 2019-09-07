@@ -1,8 +1,8 @@
-<h3>Saldo konta: 0.0zł</h3>
+<h3>Saldo konta: <%= user.balance.toFixed(2) %> zł</h3>
 <h2>Wybierz sposób doładowania:</h2>
-<ul class="top-up-ways-list">
-	<li><a href="">Powiąż kartę kresytową</a></li>
-	<li><a href="">Powiąż rachunek bankowy</a></li>
-	<li><a href="">Przelew jednorazowy</a></li>
-	<li><a href="">Kupon doładowujący</a></li>
-</ul>
+<div class="top-up-ways-list">
+	<a href="#"><img src="/img/icon-credit-card.png" alt="" valign="middle"> Powiąż kartę kresytową</a>
+	<a href="#"><img src="/img/icon-bank.png" alt="" valign="middle"> Powiąż rachunek bankowy</a>
+	<a href="#"><img src="/img/icon-bank.png" alt="" valign="middle"> Przelew jednorazowy</a>
+	<a href="/coupon"><img src="/img/icon-coupon.png" alt="" valign="middle"> Kupon doładowujący</a>
+</div>
