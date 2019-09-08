@@ -58,6 +58,15 @@ ul {
 main {
 	text-align: center;
 }
+input[type=text] {
+	padding: 6px 10px;
+	border-radius: 20px;
+	border: 1px solid #0B5057;
+	text-transform: uppercase;
+}
+form {
+	padding: 10px 0;
+}
 .image {
 	padding: 0;
 	background-image: url('../img/VWallet.png');
