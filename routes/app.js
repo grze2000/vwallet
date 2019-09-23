@@ -44,4 +44,8 @@ router.post('/coupon', auth.checkAuth, (req, res) => {
 	}
 });
 
+router.post('/transfer', auth.checkAuth, (req, res) => {
+	// przelew
+});
+
 module.exports = router;

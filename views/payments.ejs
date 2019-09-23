@@ -4,9 +4,28 @@
 		<li>Historia</li>
 	</ul>
 	<article>
-		Wyślij
+		<form action="/transfer" method="POST" class="form">
+			<h1>Wyślij środki</h1>
+			<div>
+				<input type="email" name="email" placeholder="Email">
+			</div>
+			<div>
+				<input type="number" min="0" name="amount" placeholder="Kwota" step="0.01">
+			</div>
+			<div>
+				<input type="submit" name="transfer" value="Wyślij" class="btn btn-filled-color">
+			</div>
+		</form>
 	</article>
 	<article>
 		Brak tranzakcji
 	</article>
 </div>
+<script>
+	$(() => {
+		$('.tabs > li').click(function() {
+			$('.tabs-container > article').css('display', 'none');
+			$('.tabs-container > article:nth-of-type('+($(this).index()+1)+')').css('display', 'block');
+		});
+	});
+</script>
