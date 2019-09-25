@@ -18,7 +18,11 @@
 		</form>
 	</article>
 	<article>
-		Brak tranzakcji
+		<ul>
+			<% transactions.forEach(function(transaction) { %>
+				<li><span><%= transaction['amount'] %></span><span><%= transaction['type']=='coupon' ? 'Zrealizowano kupon' : '' %></span></li>
+			<% }); %>
+		</ul>
 	</article>
 </div>
 <script>
