@@ -1,8 +1,18 @@
 <div class="tabs-container">
 	<ul class="tabs">
-		<li>Działania</li>
 		<li>Historia</li>
+		<li>Działania</li>
 	</ul>
+	<article>
+		<ul class="transactionList">
+			<li class="transaction"><div>Kwota</div><div>Opis</div><div>Data</div></li>
+			<% transactions.forEach(function(transaction) { %>
+			<% var date = new Date(transaction['createdAt']); %>
+				<li class="transaction green"><div><%= transaction['amount'] %> zł</div><div><%= transaction['type']=='coupon' ? 'Zrealizowano kupon: '+transaction['couponCode'] : '' %></div><div><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth() < 10 ? "0"+date.getMonth() : date.getMonth())+"."+date.getFullYear()+"  "+(date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div></li>
+				
+			<% }); %>
+		</ul>
+	</article>
 	<article>
 		<form action="/transfer" method="POST" class="form">
 			<h1>Wyślij środki</h1>
@@ -16,13 +26,6 @@
 				<input type="submit" name="transfer" value="Wyślij" class="btn btn-filled-color">
 			</div>
 		</form>
-	</article>
-	<article>
-		<ul>
-			<% transactions.forEach(function(transaction) { %>
-				<li><span><%= transaction['amount'] %></span><span><%= transaction['type']=='coupon' ? 'Zrealizowano kupon' : '' %></span></li>
-			<% }); %>
-		</ul>
 	</article>
 </div>
 <script>

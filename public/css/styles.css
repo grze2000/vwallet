@@ -58,7 +58,7 @@ ul {
 main {
 	text-align: center;
 }
-input[type=text] {
+.inputCoupon {
 	padding: 6px 10px;
 	border-radius: 20px;
 	border: 1px solid #0B5057;
@@ -304,4 +304,29 @@ form {
 }
 .tabs-container > article:first-of-type {
 	display: block;
+}
+.transaction {
+	display: flex;
+	flex-direction: row;
+	padding: 10px 15px;
+	border-bottom: 1px solid silver;
+}
+.green {
+	color: green;
+}
+.red {
+	color: red;
+}
+.transaction > div:first-child {
+	flex-basis: 10%;
+	font-weight: bold;
+}
+.transaction > div:nth-child(2) {
+	flex-basis: 50%;
+}
+.transaction > div:nth-child(3) {
+	flex-basis: 40%;
+}
+.transactionList {
+	padding: 0 10%;
 }

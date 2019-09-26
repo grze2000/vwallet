@@ -10,7 +10,7 @@ router.get('/overview', auth.checkAuth, (req, res) => {
 });
 
 router.get('/payments', auth.checkAuth, (req, res) => {
-	Transactions.find({$or: [{recipient: req.user.ObjectId}, {sender: req.user.ObjectId}]}, (err, userTransactions) => {
+	Transactions.find({$or: [{recipient: req.user.ObjectId}, {sender: req.user.ObjectId}]}).sort({createdAt: 'desc'}).exec((err, userTransactions) => {
 		res.render('app', {user: req.user, page: 'payments', transactions: userTransactions});
 	});
 });
@@ -34,7 +34,7 @@ router.post('/coupon', auth.checkAuth, (req, res) => {
 					req.user.save();
 					coupon.useDate = new Date();
 					coupon.save();
-					let transaction = new Transactions({type: 'coupon', amount: coupon.amount, recipient: req.user._id});
+					let transaction = new Transactions({type: 'coupon', amount: coupon.amount, couponCode: coupon.code, recipient: req.user._id});
 					transaction.save();
 					res.render('app', {user: req.user, page: 'coupon', message: `Zrealizowano kupon ${coupon.code}. Kwota doładowania: ${coupon.amount} zł`});
 				} else {

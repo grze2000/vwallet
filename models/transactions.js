@@ -7,7 +7,7 @@ const UsersSchema = new Schema({
 	recipient: Schema.Types.ObjectId,
 	amount: Number,
 	description: String,
-	// nadawca, odbiorca, typ, kwota, opis
+	couponCode: String
 }, {
 	timestamps: true
 });
