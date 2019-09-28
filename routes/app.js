@@ -11,6 +11,7 @@ router.get('/overview', auth.checkAuth, (req, res) => {
 
 router.get('/payments', auth.checkAuth, (req, res) => {
 	Transactions.find({$or: [{recipient: req.user.ObjectId}, {sender: req.user.ObjectId}]}).sort({createdAt: 'desc'}).exec((err, userTransactions) => {
+		console.log(userTransactions, req.user);
 		res.render('app', {user: req.user, page: 'payments', transactions: userTransactions});
 	});
 });
@@ -51,7 +52,39 @@ router.post('/coupon', auth.checkAuth, (req, res) => {
 });
 
 router.post('/transfer', auth.checkAuth, (req, res) => {
-	// przelew
+	Transactions.find({$or: [{recipient: req.user.ObjectId}, {sender: req.user.ObjectId}]}).sort({createdAt: 'desc'}).exec((err, userTransactions) => {
+		if(req.body.email && req.body.amount) {
+			const amount = parseFloat(req.body.amount);
+			Users.findOne({email: req.body.email}, (err, user) => {
+			if(user) {
+				if(req.body.email != req.user.email) {
+					if(amount > 0 && amount <= req.user.balance) {
+						req.user.balance -= amount;
+						user.balance += amount;
+						req.user.save();
+						user.save();
+						let transaction = new Transactions({
+							type: 'transfer',
+							amount: amount,
+							sender: req.user._id,
+							recipient: user._id
+						});
+						transaction.save();
+						res.render('app', {user: req.user, page: 'payments', transactions: userTransactions});
+					} else {
+						res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Nie masz wystarczających środków na koncie', transactions: userTransactions});
+					}
+				} else {
+					res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Podany email jest przypisany do Twojego konta', transactions: userTransactions});
+				}
+			} else {
+				res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Użytkownik o takim adresie email nie istnieje', transactions: userTransactions});
+			}
+		});
+		} else {
+			res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Wypelnij wszystkie pola', transactions: userTransactions});
+		}
+	});
 });
 
 module.exports = router;

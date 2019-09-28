@@ -1,20 +1,32 @@
+<% if(typeof(tab) != 'undefined') { %>
+	<style>.tabs > article:nth-of-type(<%= tab %>) { display: block; } .tabs > article:not:nth-of-type(<%= tab %>) { display: none; }</style>
+<% } %>
 <div class="tabs-container">
 	<ul class="tabs">
 		<li>Historia</li>
 		<li>Działania</li>
 	</ul>
-	<article>
+	<article <% if(typeof(tab) == 'undefined' || tab == 1) { %>class="tab-active" <% } %>>
 		<ul class="transactionList">
 			<li class="transaction"><div>Kwota</div><div>Opis</div><div>Data</div></li>
 			<% transactions.forEach(function(transaction) { %>
 			<% var date = new Date(transaction['createdAt']); %>
-				<li class="transaction green"><div><%= transaction['amount'] %> zł</div><div><%= transaction['type']=='coupon' ? 'Zrealizowano kupon: '+transaction['couponCode'] : '' %></div><div><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth() < 10 ? "0"+date.getMonth() : date.getMonth())+"."+date.getFullYear()+"  "+(date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div></li>
-				
+				<li class="transaction green"><div><%= transaction['amount'] %> zł</div><div>
+					<% if(transaction['type']=='coupon') { %>
+						<%= 'Zrealizowano kupon: '+transaction['couponCode'] %>
+					<% } else if(transaction['type']=='transfer' && transaction['sender'] == user['_id']) { %>
+						<%= 'Przelew środków do '+transaction['recipient'] %>
+					<% } else if(transaction['type']=='transfer' && transaction['recipient'] == user['_id']) { %>
+						<%= 'Przelew środków od '+transaction['sender'] %>
+					<% } else { %>
+						<%= transaction['sender']+' '+transaction['recipient']+' '+user['_id'] %>
+					<% } %>
+					</div><div><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth() < 10 ? "0"+date.getMonth() : date.getMonth())+"."+date.getFullYear()+"  "+(date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div></li>
 			<% }); %>
 		</ul>
 	</article>
-	<article>
-		<form action="/transfer" method="POST" class="form">
+	<article <% if(typeof(tab) != 'undefined' && tab == 2) { %>class="tab-active" <% } %>>
+		<form action="/app/transfer" method="POST" class="form2">
 			<h1>Wyślij środki</h1>
 			<div>
 				<input type="email" name="email" placeholder="Email">
@@ -23,8 +35,11 @@
 				<input type="number" min="0" name="amount" placeholder="Kwota" step="0.01">
 			</div>
 			<div>
-				<input type="submit" name="transfer" value="Wyślij" class="btn btn-filled-color">
+				<input type="submit" name="transfer" value="Wyślij" class="btn btn-color">
 			</div>
+			<% if(typeof(message) != 'undefined') { %>
+				<div class="alert"><%= message %></div>
+			 <% } %>
 		</form>
 	</article>
 </div>

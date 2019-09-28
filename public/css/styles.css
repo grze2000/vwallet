@@ -277,39 +277,51 @@ form {
 	display: inline-block;
 	padding: 5px 12px;
 	margin: 15px 10px;
-	border-bottom: 2px solid #0B5057;
 	text-transform: uppercase;
 	font-weight: bold;
 	color: #0B5057;
+	position: relative;
 }
 .tabs > li:hover {
 	cursor: pointer;
-	animation: tabLabel 0.15s forwards;
+}
+.tabs > li::before {
+	content: "";
+	background-color: #0B5057;
+	height: 2px;
+	width: 100%;
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+}
+.tabs > li:hover::before {
+		animation: tabLabel 0.15s forwards;
 }
 @keyframes tabLabel {
 	from {
-		padding: 5px 12px;
-		margin: 15px 10px;
+		width: 100%;
+		left: 0;
 	}
 	to {
-		padding: 5px 7px;
-		margin: 15px 15px;
+		width: 90%;
+		left: 5%;
 	}
-}
-.tabs > li:target {
-	background-color: red;
 }
 .tabs-container > article {
 	display: none;
 }
-.tabs-container > article:first-of-type {
+.tabs-container .tab-active {
 	display: block;
 }
 .transaction {
 	display: flex;
 	flex-direction: row;
-	padding: 10px 15px;
+	padding: 0;
 	border-bottom: 1px solid silver;
+	overflow: hidden;
+	max-height: 0px;
+	opacity: 0;
+	animation: slideDown 0.8s ease-out 0s 1 forwards;
 }
 .green {
 	color: green;
@@ -322,11 +334,27 @@ form {
 	font-weight: bold;
 }
 .transaction > div:nth-child(2) {
-	flex-basis: 50%;
+	flex-basis: 60%;
 }
 .transaction > div:nth-child(3) {
-	flex-basis: 40%;
+	flex-basis: 30%;
 }
 .transactionList {
 	padding: 0 10%;
+}
+@keyframes slideDown {
+  to {
+  	opacity: 1;
+  	max-height: 50px;
+  	padding: 10px 15px;
+  }
+}
+.form2 > div {
+	padding: 8px;
+}
+.form2 input[type=text], .form2 input[type=email], .form2 input[type=number] {
+	border: 1px solid silver;
+	border-radius: 3px;
+	padding: 8px 15px;
+	width: 20vw;
 }
