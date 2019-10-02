@@ -10,9 +10,8 @@ router.get('/overview', auth.checkAuth, (req, res) => {
 });
 
 router.get('/payments', auth.checkAuth, (req, res) => {
-	Transactions.find({$or: [{recipient: req.user.ObjectId}, {sender: req.user.ObjectId}]}).sort({createdAt: 'desc'}).exec((err, userTransactions) => {
-		console.log(userTransactions, req.user);
-		res.render('app', {user: req.user, page: 'payments', transactions: userTransactions});
+	Transactions.find({$or: [{recipient: req.user._id}, {sender: req.user._id}]}).populate('recipient').populate('sender').sort({createdAt: 'desc'}).exec((err, userTransactions) => {
+		res.render('app', {user: req.user, page: 'payments', transactions: JSON.stringify(userTransactions)});
 	});
 });
 
@@ -52,7 +51,7 @@ router.post('/coupon', auth.checkAuth, (req, res) => {
 });
 
 router.post('/transfer', auth.checkAuth, (req, res) => {
-	Transactions.find({$or: [{recipient: req.user.ObjectId}, {sender: req.user.ObjectId}]}).sort({createdAt: 'desc'}).exec((err, userTransactions) => {
+	Transactions.find({$or: [{recipient: req.user._id}, {sender: req.user._id}]}).sort({createdAt: 'desc'}).exec((err, userTransactions) => {
 		if(req.body.email && req.body.amount) {
 			const amount = parseFloat(req.body.amount);
 			Users.findOne({email: req.body.email}, (err, user) => {
@@ -67,22 +66,23 @@ router.post('/transfer', auth.checkAuth, (req, res) => {
 							type: 'transfer',
 							amount: amount,
 							sender: req.user._id,
-							recipient: user._id
+							recipient: user._id,
+							description: req.body.description
 						});
 						transaction.save();
 						res.render('app', {user: req.user, page: 'payments', transactions: userTransactions});
 					} else {
-						res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Nie masz wystarczających środków na koncie', transactions: userTransactions});
+						res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Nie masz wystarczających środków na koncie', transactions: JSON.stringify(userTransactions)});
 					}
 				} else {
-					res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Podany email jest przypisany do Twojego konta', transactions: userTransactions});
+					res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Podany email jest przypisany do Twojego konta', transactions: JSON.stringify(userTransactions)});
 				}
 			} else {
-				res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Użytkownik o takim adresie email nie istnieje', transactions: userTransactions});
+				res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Użytkownik o takim adresie email nie istnieje', transactions: JSON.stringify(userTransactions)});
 			}
 		});
 		} else {
-			res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Wypelnij wszystkie pola', transactions: userTransactions});
+			res.render('app', {user: req.user, page: 'payments', tab: 2, message: 'Wypełnij wymagane pola', transactions: JSON.stringify(userTransactions)});
 		}
 	});
 });

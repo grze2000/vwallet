@@ -9,19 +9,17 @@
 	<article <% if(typeof(tab) == 'undefined' || tab == 1) { %>class="tab-active" <% } %>>
 		<ul class="transactionList">
 			<li class="transaction"><div>Kwota</div><div>Opis</div><div>Data</div></li>
-			<% transactions.forEach(function(transaction) { %>
-			<% var date = new Date(transaction['createdAt']); %>
-				<li class="transaction green"><div><%= transaction['amount'] %> zł</div><div>
-					<% if(transaction['type']=='coupon') { %>
-						<%= 'Zrealizowano kupon: '+transaction['couponCode'] %>
-					<% } else if(transaction['type']=='transfer' && transaction['sender'] == user['_id']) { %>
-						<%= 'Przelew środków do '+transaction['recipient'] %>
-					<% } else if(transaction['type']=='transfer' && transaction['recipient'] == user['_id']) { %>
-						<%= 'Przelew środków od '+transaction['sender'] %>
-					<% } else { %>
-						<%= transaction['sender']+' '+transaction['recipient']+' '+user['_id'] %>
-					<% } %>
-					</div><div><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth() < 10 ? "0"+date.getMonth() : date.getMonth())+"."+date.getFullYear()+"  "+(date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div></li>
+			<% let transactionList = JSON.parse(transactions) %>
+			<% transactionList.forEach(function(transaction) { %>
+				<% let date = new Date(transaction.createdAt) %>
+				<% if(transaction.type == 'coupon') { %>
+					<li class="transaction green"><div><%= transaction.amount %> zł</div><div>Zrealizowano kupon: <%= transaction.couponCode %></div>
+				<% } else if(transaction.type == 'transfer' && transaction.sender[0]._id == user._id.toString()) { %>
+					<li class="transaction red"><div><%= -transaction.amount %> zł</div><div>Przelew środków do <%= transaction.recipient[0].firstname+' '+transaction.recipient[0].lastname+' ('+transaction.recipient[0].email+')' %><!--<br><%= transaction.description %>--></div>
+				<% } else if(transaction.type == 'transfer' && transaction.recipient[0]._id == user._id.toString()) { %>
+					<li class="transaction green"><div><%= transaction.amount %> zł</div><div>Przelew środków od <%= transaction.sender[0].firstname+' '+transaction.sender[0].lastname+' ('+transaction.sender[0].email+')' %></div>
+				<% } %>
+				<div><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth() < 10 ? "0"+date.getMonth() : date.getMonth())+"."+date.getFullYear()+"  "+(date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div></li>
 			<% }); %>
 		</ul>
 	</article>
@@ -29,11 +27,12 @@
 		<form action="/app/transfer" method="POST" class="form2">
 			<h1>Wyślij środki</h1>
 			<div>
-				<input type="email" name="email" placeholder="Email">
+				<input type="email" name="email" placeholder="Email*" required>
 			</div>
 			<div>
-				<input type="number" min="0" name="amount" placeholder="Kwota" step="0.01">
+				<input type="number" min="0" name="amount" placeholder="Kwota*" step="0.01" required>
 			</div>
+			<textarea maxlength="250" rows="3" placeholder="Opis" name="description"></textarea>
 			<div>
 				<input type="submit" name="transfer" value="Wyślij" class="btn btn-color">
 			</div>

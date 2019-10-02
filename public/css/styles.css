@@ -352,9 +352,13 @@ form {
 .form2 > div {
 	padding: 8px;
 }
-.form2 input[type=text], .form2 input[type=email], .form2 input[type=number] {
+.form2 input[type=text], .form2 input[type=email], .form2 input[type=number], .form2 textarea {
 	border: 1px solid silver;
 	border-radius: 3px;
 	padding: 8px 15px;
 	width: 20vw;
+}
+
+.form2 textarea {
+	resize: none;
 }

@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const UsersSchema = new Schema({
 	type: String,
-	sender:	Schema.Types.ObjectId,
-	recipient: Schema.Types.ObjectId,
+	sender:	[{ type: Schema.Types.ObjectId, ref: 'Users'}],
+	recipient: [{ type: Schema.Types.ObjectId, ref: 'Users'}],
 	amount: Number,
 	description: String,
 	couponCode: String
