@@ -1,2 +1,8 @@
 <h2>Saldo konta</h2>
 <h1><%= user.balance.toFixed(2) %> zł</h1>
+<canvas id="chart1" width="400" height="250"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+	var ctx = $("#chart1")[0].getContext('2d');
+	var myLineChart = new Chart(ctx, <%- JSON.stringify(chart) %>);
+</script>

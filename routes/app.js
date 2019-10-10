@@ -5,8 +5,67 @@ const Users = require('../models/users');
 const Coupons = require('../models/coupons');
 const Transactions = require('../models/transactions');
 
+const find = function(q, dict) {
+	for(const [key, value] of Object.entries(dict)) {
+		if(value._id == q) {
+			return value.balance;
+		}
+	}
+	return 0;
+}
+
 router.get('/overview', auth.checkAuth, (req, res) => {
-	res.render('app', {user: req.user, page: 'overview'});
+	const date = new Date();
+	Transactions.aggregate([
+		{$match: {$or: [
+				{"recipient": req.user._id},
+				{"sender": req.user._id}
+			]}
+		},
+		{$group: {
+			_id: {$month: '$createdAt'},
+			balance: {$sum: {$multiply: [
+				'$amount', {$cond: [
+					{$eq: [
+						"$recipient",
+						req.user._id
+					]}, 1, -1
+				]}
+			]}}
+			}
+		}
+	]).exec((err, tr) => {
+		const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+		const start = date.getMonth() >= 6 ? date.getMonth()-5 : 7+date.getMonth();
+		let values = [];
+		if(start > date.getMonth()) {
+			for(let i=start; i<12; i++) {
+				values.push(find(i+1, tr));
+			}
+			for(let i=0; i<=date.getMonth(); i++) {
+				values.push(find(i+1, tr));
+			}
+		} else {
+			for(let i=start; i<=date.getMonth(); i++) {
+				values.push(find(i+1, tr));
+			}
+		}
+		const chart = {
+			type: 'bar',
+			data: {
+				labels: start > date.getMonth() ? months.slice(start, months.length).concat(months.slice(0, date.getMonth()+1)) : months.slice(start, date.getMonth()+1),
+				datasets: [{
+					label: 'saldo [zł]',
+	        backgroundColor: 'rgb(75, 192, 192)',
+					data: values
+				}]
+			},
+			options: {
+				responsive: false
+			}
+		};
+		res.render('app', {user: req.user, page: 'overview', chart: chart});
+	});
 });
 
 router.get('/payments', auth.checkAuth, (req, res) => {
