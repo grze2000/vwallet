@@ -1,6 +1,13 @@
-<h3>Saldo konta: <%= user.balance.toFixed(2) %> zł</h3>
-<h2>Wybierz sposób doładowania:</h2>
 <div class="top-up-ways-list">
+	<div>
+		<div>
+			<span class="label">Saldo konta</span>
+			<h2><%= user.balance.toFixed(2) %> zł</h2>
+		</div>
+	</div>
+	<div>
+		<h2>Sposoby doładowania:</h2>
+	</div>
 	<a href="#"><img src="/img/icon-credit-card.png" alt="" valign="middle"> Powiąż kartę kresytową</a>
 	<a href="#"><img src="/img/icon-bank.png" alt="" valign="middle"> Powiąż rachunek bankowy</a>
 	<a href="#"><img src="/img/icon-bank.png" alt="" valign="middle"> Przelew jednorazowy</a>

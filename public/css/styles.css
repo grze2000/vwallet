@@ -7,6 +7,7 @@ body {
 	font-family: Calibri;
 	font-size: 18px;
 	color: #303030;
+	background-color: #fbfbfb;
 }
 footer {
 	background-color: #0B5057;
@@ -213,24 +214,43 @@ form {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	margin: 0 10%;
+	margin: 20px 10%;
 }
-.top-up-ways-list > a {
+.top-up-ways-list > a, .top-up-ways-list > div {
 	display: block;
-	border: 1px solid #0b505750;
+	border: 1px solid #eee;
 	border-radius: 10px;
-	padding: 15px 35px;
+	padding: 20px 35px;
 	box-sizing: border-box;
 	margin: 10px 10px;
 	flex-basis: calc(50% - 20px);
-	
+	background-color: #fff;
+	box-shadow: 0px 0px 15px -7px rgba(0,0,0,0.25);
+	background-color: #fdfdfd;
+}
+.top-up-ways-list > div {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	text-align: left;
+	text-transform: uppercase;
+}
+.top-up-ways-list .label {
+	font-size: 0.7em;
+	font-weight: bold;
 }
 .top-up-ways-list > a:hover {
-	background-color: #f7f7f7;
+	/*background-color: #f7f7f7;*/
+	box-shadow: 0px 0px 15px -7px rgba(0,0,0,0.5);
+	background-color: #fff;
 }
 .top-up-ways-list > a img {
 	height: 64px;
 	margin-right: 10px;
+}
+.top-up-ways-list h1,.top-up-ways-list h2, .top-up-ways-list h3 {
+	margin: 0;
 }
 .app-body {
 	display: flex;
