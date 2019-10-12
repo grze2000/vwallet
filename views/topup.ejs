@@ -1,15 +1,23 @@
-<div class="top-up-ways-list">
-	<div>
-		<div>
-			<span class="label">Saldo konta</span>
-			<h2><%= user.balance.toFixed(2) %> zł</h2>
-		</div>
-	</div>
-	<div>
-		<h2>Sposoby doładowania:</h2>
-	</div>
-	<a href="#"><img src="/img/icon-credit-card.png" alt="" valign="middle"> Powiąż kartę kresytową</a>
-	<a href="#"><img src="/img/icon-bank.png" alt="" valign="middle"> Powiąż rachunek bankowy</a>
-	<a href="#"><img src="/img/icon-bank.png" alt="" valign="middle"> Przelew jednorazowy</a>
-	<a href="/app/coupon"><img src="/img/icon-coupon.png" alt="" valign="middle"> Kupon doładowujący</a>
+<div class="flex-container">
+    <article class="flex-panel flex-panel1-2">
+        <div>
+            <span class="label">Saldo konta</span>
+            <h2><%= user.balance.toFixed(2) %> zł</h2>
+        </div>
+    </article>
+    <article class="flex-panel flex-panel1-2">
+        <h2>Sposoby doładowania:</h2>
+    </article>
+    <a class="flex-panel flex-panel1-2" href="#">
+        <img src="/img/icon-credit-card.png" alt="" valign="middle"> Powiąż kartę kresytową
+    </a>
+    <a class="flex-panel flex-panel1-2" href="#">
+        <img src="/img/icon-bank.png" alt="" valign="middle"> Powiąż rachunek bankowy
+    </a>
+    <a class="flex-panel flex-panel1-2" href="#">
+        <img src="/img/icon-bank.png" alt="" valign="middle"> Przelew jednorazowy
+    </a>
+    <a class="flex-panel flex-panel1-2"class="flex-panel flex-panel1-2" href="/app/coupon">
+        <img src="/img/icon-coupon.png" alt="" valign="middle"> Kupon doładowujący
+    </a>
 </div>

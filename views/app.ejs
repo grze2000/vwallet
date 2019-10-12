@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="urf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="author" content="Grzegorz Babiarz">
-		<meta name="description" content="VWallet - Free virtual wallet">
-		<meta name="keywords" content="VWallet, virtual wallet, digital wallet, wallet">
-		<link rel="shortcut icon" href="/img/favicon.ico">
-		<link rel="stylesheet" href="/css/styles.css">
-		<script
+    <head>
+        <meta charset="urf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Grzegorz Babiarz">
+        <meta name="description" content="VWallet - Free virtual wallet">
+        <meta name="keywords" content="VWallet, virtual wallet, digital wallet, wallet">
+        <link rel="shortcut icon" href="/img/favicon.ico">
+        <link rel="stylesheet" href="/css/styles.css">
+        <script
   src="http://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
-		<title>VWallet</title>
-	</head>
-	<body class="app-body">
-		<header class="header-filled header-columns">
-			<article class="header-columns header-left">
-				<img src="/img/logo-full.png" alt="" height="40">
-			</article>
-			<article class="header-columns header-center">
-				<ul class="header-columns menu">
-					<li><a href="/app/overview">Podsumowanie</a></li>
-					<li><a href="/app/payments">Płatności</a></li>
-					<li><a href="/app/topup">Doładowania</a></li>
-				</ul>
-			</article>
-			<article class="header-columns header-right">
-				<a href="/logout">Wyloguj się</a>
-			</article>
-		</header>
-		<main class="app-main">
-			<% if(page == 'overview') { %>
-				<%- include overview %>
-			<% } else if(page == 'payments') { %>
-				<%- include payments %>
-			<% } else if(page == 'topup') { %>
-				<%- include topup %>
-			<% } else if(page == 'coupon') { %>
-				<%- include coupon %>
-			<% } %>
-		</main>
-		<footer class="footer-fixed-bottom">Copyright &copy; 2019 Grzegorz Babiarz</footer>
-	</body>
+        <title>VWallet</title>
+    </head>
+    <body class="app-body">
+        <header class="header-filled header-columns">
+            <article class="header-columns header-left">
+                <img src="/img/logo-full.png" alt="" height="40">
+            </article>
+            <article class="header-columns header-center">
+                <ul class="header-columns menu">
+                    <li><a href="/app/overview">Podsumowanie</a></li>
+                    <li><a href="/app/payments">Płatności</a></li>
+                    <li><a href="/app/topup">Doładowania</a></li>
+                </ul>
+            </article>
+            <article class="header-columns header-right">
+                <a href="/logout">Wyloguj się</a>
+            </article>
+        </header>
+        <main class="app-main">
+            <% if(page == 'overview') { %>
+                <%- include overview %>
+            <% } else if(page == 'payments') { %>
+                <%- include payments %>
+            <% } else if(page == 'topup') { %>
+                <%- include topup %>
+            <% } else if(page == 'coupon') { %>
+                <%- include coupon %>
+            <% } %>
+        </main>
+        <footer class="footer-fixed-bottom">Copyright &copy; 2019 Grzegorz Babiarz</footer>
+    </body>
 </html>
