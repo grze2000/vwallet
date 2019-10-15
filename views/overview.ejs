@@ -1,8 +1,84 @@
-<h2>Saldo konta</h2>
-<h1><%= user.balance.toFixed(2) %> zł</h1>
-<canvas id="chart1" width="400" height="250"></canvas>
+<div class="flex-container">
+    <article class="flex-panel flex-panel1-3">
+        Statystyki
+    </article>
+    <article class="flex-panel flex-panel1-3" style="position: relative; padding-bottom: 70px;">
+        <canvas id="chart2"></canvas>
+        <div class="chartText">
+            <div class="balance">
+                <span>Saldo konta</span>
+                <h1><%= user.balance.toFixed(2) %></h1>
+                <h3>PLN</h3>
+            </div>
+            <div>
+                <span>W tym miesiącu:</span>
+                <h1>XXX</h1>
+            </div>
+        </div>
+    </article>
+    <article class="flex-panel flex-panel1-3">
+        Wiadomości
+    </article>
+    <article class="flex-panel flex-panel1-3">
+        Osoby
+    </article>
+    <article class="flex-panel flex-panel1-3">
+        <canvas id="chart1" style="width:100%;"></canvas>
+    </article>
+    <article class="flex-panel flex-panel1-3">
+        Ostatnie transakcje
+    </article>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>
-    var ctx = $("#chart1")[0].getContext('2d');
-    var myLineChart = new Chart(ctx, <%- JSON.stringify(chart) %>);
+    var ctx = document.getElementById('chart1').getContext('2d');
+    var myLineChart = new Chart(ctx, {
+            type: 'bar',
+            data: <%- JSON.stringify(chartData) %>,
+            options: {
+                responsive: false,
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Saldo'
+                },
+                tooltips: {
+                    displayColors: false
+                }
+            }
+        });
+
+    var ctx2 = document.getElementById('chart2').getContext('2d');
+    var values = [<%= [expenses.min, Math.round(expenses.avg*100)/100, expenses.max] %>];
+    console.log(values);
+    var balanceChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Minimalne', 'Średnie', 'Maksymalne'],
+            datasets: [{
+                data: [2, 3, 2],
+                backgroundColor: ['rgb(50, 168, 82)', 'rgb(245, 152, 40)', 'rgb(226, 13, 5)']
+            }]
+        },
+        options: {
+            cutoutPercentage: 80,
+            legend: false,
+            rotation: 0.75*Math.PI,
+            circumference:  1.5*Math.PI,
+            tooltips: {
+                displayColors: false,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.labels[tooltipItem.index]+': '+values[tooltipItem.index]+'zł';
+                    }
+                }
+            },
+            title: {
+                display: true,
+                text: 'Miesięczne wydatki'
+            }
+        }
+    });
 </script>

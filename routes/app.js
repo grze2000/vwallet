@@ -31,52 +31,62 @@ router.get('/overview', auth.checkAuth, (req, res) => {
                         req.user._id
                     ]}, 1, -1
                 ]}
+            ]}},
+            expenses: {$sum: {$cond: [
+                {$eq: [
+                    "$sender",
+                    req.user._id
+                ]}, "$amount", 0
             ]}}
+
             }
-        }
+        },
+        {$group: {
+            _id: 1,
+            data: {$push: {
+                _id: "$_id",
+                balance: "$balance"
+            }},
+            exp: {$push: "$expenses"}
+        }},
+        {$project: {
+            data: 1,
+            expenses: {
+                min: {$min: "$exp"},
+                avg: {$avg: "$exp"},
+                max: {$max: "$exp"}
+            }
+        }}
     ]).exec((err, tr) => {
+        const data = tr[0].data;
         const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
         const start = date.getMonth() >= 6 ? date.getMonth()-5 : 7+date.getMonth();
         let values = [];
         let colors = [];
         if(start > date.getMonth()) {
             for(let i=start; i<12; i++) {
-                values.push(find(i+1, tr));
+                values.push(find(i+1, data));
             }
             for(let i=0; i<=date.getMonth(); i++) {
-                values.push(find(i+1, tr));
+                values.push(find(i+1, data));
             }
         } else {
             for(let i=start; i<=date.getMonth(); i++) {
-                values.push(find(i+1, tr));
+                values.push(find(i+1, data));
             }
         }
         for(let value of values) {
             colors.push(value >= 0 ? 'rgb(100, 255, 132)' : 'rgb(255, 99, 132)');
         }
-        const chart = {
-            type: 'bar',
-            data: {
-                labels: start > date.getMonth() ? months.slice(start, months.length).concat(months.slice(0, date.getMonth()+1)) : months.slice(start, date.getMonth()+1),
-                datasets: [{
-                    label: 'saldo [zł]',
-            //backgroundColor: 'rgb(75, 192, 192)',
-            backgroundColor: colors,
-                    data: values
-                }]
-            },
-            options: {
-                responsive: false,
-                legend: {
-                    display: false
-                },
-                title: {
-                    display: true,
-                    text: 'Saldo'
-                }
-            }
+        const chartData = {
+            labels: start > date.getMonth() ? months.slice(start, months.length).concat(months.slice(0, date.getMonth()+1)) : months.slice(start, date.getMonth()+1),
+            datasets: [{
+                label: 'saldo [zł]',
+                backgroundColor: colors,
+                data: values
+            }]
         };
-        res.render('app', {user: req.user, page: 'overview', chart: chart});
+        res.render('app', {user: req.user, page: 'overview', chartData: chartData, expenses: tr[0].expenses});
     });
 });
 

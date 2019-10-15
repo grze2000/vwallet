@@ -241,7 +241,7 @@ form {
     text-align: center;
 
 }
-.flex-panel > div {
+.flex-panel > div:not(.chartText) {
     text-align: left;
 }
 .flex-panel h1, .flex-panel h2, .flex-panel h3 {
@@ -299,36 +299,6 @@ a.flex-panel:hover {
         height: 200%;
     }
 }
-.tabs {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-.tabs > li {
-    display: inline-block;
-    padding: 5px 12px;
-    margin: 15px 10px;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: #0B5057;
-    position: relative;
-}
-.tabs > li:hover {
-    cursor: pointer;
-}
-.tabs > li::before {
-    content: "";
-    background-color: #0B5057;
-    height: 2px;
-    width: 100%;
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-}
-.tabs > li:hover::before {
-        animation: tabLabel 0.15s forwards;
-}
 @keyframes tabLabel {
     from {
         width: 100%;
@@ -338,12 +308,6 @@ a.flex-panel:hover {
         width: 90%;
         left: 5%;
     }
-}
-.tabs-container > article {
-    display: none;
-}
-.tabs-container .tab-active {
-    display: block;
 }
 .transaction {
     display: flex;
@@ -403,4 +367,15 @@ a.flex-panel:hover {
 
 .form2 textarea {
     resize: none;
+}
+.chartText {
+    position: absolute;
+    top: 0;
+    text-align: center;
+}
+.balance {
+    padding: 95px 0 30px 0;
+}
+#chart2 {
+    z-index: 999;
 }
