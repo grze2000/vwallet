@@ -4,29 +4,90 @@
     </article>
     <article class="flex-panel flex-panel1-3" style="position: relative; padding-bottom: 70px;">
         <canvas id="chart2"></canvas>
-        <div class="chartText">
-            <div class="balance">
-                <span>Saldo konta</span>
-                <h1><%= user.balance.toFixed(2) %></h1>
-                <h3>PLN</h3>
-            </div>
-            <div>
-                <span>W tym miesiącu:</span>
-                <h1>XXX</h1>
-            </div>
+        <div class="chartText balance">
+            <span>Saldo konta</span>
+            <h1><%= user.balance.toFixed(2) %></h1>
+            <h3>PLN</h3>
+        </div>
+        <div class="chartText expenses">
+            <span>W tym miesiącu:</span>
+            <h1>XXX</h1>
         </div>
     </article>
     <article class="flex-panel flex-panel1-3">
         Wiadomości
+        <ul class="list">
+            <% if(!user.creditCard) { %>
+                <li class="list-item">
+                    <img src="/img/alert-icon.png">
+                    <div class="list-item-left">
+                        Powiąż kartę kresytową z kontem
+                    </div>
+                </li>
+            <% } %>
+        </ul>
     </article>
     <article class="flex-panel flex-panel1-3">
         Osoby
+        <ul class="list">
+            <% people[0].senders[0].list.forEach(function(person) { %>
+                <li class="list-item">
+                    <img src="/img/user-icon.png" alt="">
+                    <div class="list-item-left">
+                        <div class="list-item-title">
+                            <%= person.firstname+' '+person.lastname %>
+                        </div>
+                        <div class="list-item-description">
+                            <%= person.email %>
+                        </div>
+                    </div>
+                    <div class="list-item-right">
+                        <a href="#"><img src="/img/transfer-icon.png" alt=""></a>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
     </article>
     <article class="flex-panel flex-panel1-3">
         <canvas id="chart1" style="width:100%;"></canvas>
     </article>
     <article class="flex-panel flex-panel1-3">
         Ostatnie transakcje
+        <ul class="list">
+            <% let transactionList = JSON.parse(transactions) %>
+            <% transactionList.forEach(function(transaction) { %>
+                <% let date = new Date(transaction.createdAt) %>
+                <li><a href="/app/payments" class="list-item">
+                    <% if(transaction.type == 'coupon') { %>
+                        <img src="/img/coupon-icon.png" alt="">
+                    <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                        <img src="/img/transfer-icon2.png" alt="">
+                    <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                        <img src="/img/transfer-icon2.png" alt="">
+                    <% } %>
+                    <div class="list-item-left">
+                        <% if(transaction.type == 'coupon') { %>
+                            <div class="list-item-title">Kupon</div>
+                        <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                            <div class="list-item-title"><%= transaction.recipient.firstname+' '+transaction.recipient.lastname %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                            <div class="list-item-title"><%= transaction.sender.firstname+' '+transaction.sender.lastname %></div>
+                        <% } %>
+                        <div class="list-item-description"><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1)+"."+date.getFullYear() %></div>
+                    </div>
+                    <div class="list-item-right">
+                        <% if(transaction.type == 'coupon') { %>
+                            <div class="list-item-title green"><%= transaction.amount %> zł</div>
+                        <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                            <div class="list-item-title red"><%= -transaction.amount %> zł</div>
+                        <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                            <div class="list-item-title green"><%= transaction.amount %> zł</div>
+                        <% } %>
+                        <div class="list-item-description"><%= (date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div>
+                    </div></a>
+                </li>
+            <% }); %>
+        </ul>
     </article>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -52,7 +113,6 @@
 
     var ctx2 = document.getElementById('chart2').getContext('2d');
     var values = [<%= [expenses.min, Math.round(expenses.avg*100)/100, expenses.max] %>];
-    console.log(values);
     var balanceChart = new Chart(ctx2, {
         type: 'doughnut',
         data: {

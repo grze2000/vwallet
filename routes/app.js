@@ -58,35 +58,82 @@ router.get('/overview', auth.checkAuth, (req, res) => {
             }
         }}
     ]).exec((err, tr) => {
-        const data = tr[0].data;
-        const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
-        const start = date.getMonth() >= 6 ? date.getMonth()-5 : 7+date.getMonth();
-        let values = [];
-        let colors = [];
-        if(start > date.getMonth()) {
-            for(let i=start; i<12; i++) {
-                values.push(find(i+1, data));
-            }
-            for(let i=0; i<=date.getMonth(); i++) {
-                values.push(find(i+1, data));
-            }
-        } else {
-            for(let i=start; i<=date.getMonth(); i++) {
-                values.push(find(i+1, data));
-            }
-        }
-        for(let value of values) {
-            colors.push(value >= 0 ? 'rgb(100, 255, 132)' : 'rgb(255, 99, 132)');
-        }
-        const chartData = {
-            labels: start > date.getMonth() ? months.slice(start, months.length).concat(months.slice(0, date.getMonth()+1)) : months.slice(start, date.getMonth()+1),
-            datasets: [{
-                label: 'saldo [zł]',
-                backgroundColor: colors,
-                data: values
-            }]
-        };
-        res.render('app', {user: req.user, page: 'overview', chartData: chartData, expenses: tr[0].expenses});
+        Transactions.find({$or: [{recipient: req.user._id}, {sender: req.user._id}]}).populate('recipient').populate('sender').sort({createdAt: 'desc'}).limit(5).exec((err, userTransactions) => {
+            Transactions.aggregate([
+                {$facet: {
+                    senders: [
+                        {$match: {
+                            "recipient": req.user._id
+                        }},
+                        {$group: {
+                            _id: "$recipient",
+                            arr: {$addToSet: "$sender"}
+                        }},
+                        {$lookup: {
+                            from: 'users',
+                            localField: 'arr',
+                            foreignField: '_id',
+                            as: 'list'
+                        }},
+                        {$project: {
+                            _id: 0,
+                            list: 1
+                        }}
+                    ],
+                    recipients: [
+                        {$match: {
+                            "sender": req.user._id
+                        }},
+                        {$group: {
+                            _id: "$sender",
+                            arr: {$addToSet: "$recipient"}
+                        }},
+                        {$lookup: {
+                            from: 'users',
+                            localField: 'arr',
+                            foreignField: '_id',
+                            as: 'list'
+                        }},
+                        {$project: {
+                            _id: 0,
+                            list: 1
+                        }}
+                    ]
+                }}
+            ]).exec((err, people) => {
+                console.log(people[0].senders[0].list);
+                const data = tr.length > 0 ? tr[0].data : {};
+                const expenses = tr.length > 0 ? tr[0].expenses : {min: 0, avg: 0, max: 0};
+                const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
+                const start = date.getMonth() >= 6 ? date.getMonth()-5 : 7+date.getMonth();
+                let values = [];
+                let colors = [];
+                if(start > date.getMonth()) {
+                    for(let i=start; i<12; i++) {
+                        values.push(find(i+1, data));
+                    }
+                    for(let i=0; i<=date.getMonth(); i++) {
+                        values.push(find(i+1, data));
+                    }
+                } else {
+                    for(let i=start; i<=date.getMonth(); i++) {
+                        values.push(find(i+1, data));
+                    }
+                }
+                for(let value of values) {
+                    colors.push(value >= 0 ? 'rgb(100, 255, 132)' : 'rgb(255, 99, 132)');
+                }
+                const chartData = {
+                    labels: start > date.getMonth() ? months.slice(start, months.length).concat(months.slice(0, date.getMonth()+1)) : months.slice(start, date.getMonth()+1),
+                    datasets: [{
+                        label: 'saldo [zł]',
+                        backgroundColor: colors,
+                        data: values
+                    }]
+                };
+                res.render('app', {user: req.user, page: 'overview', chartData: chartData, expenses: expenses, transactions: JSON.stringify(userTransactions), people: people});
+            });
+        });
     });
 });
 

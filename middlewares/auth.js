@@ -8,7 +8,7 @@ exports.checkAuth = (req, res, next) => {
 
 exports.checkNotAuth = (req, res, next) => {
     if(req.isAuthenticated()) {
-        res.redirect('/app/dashboard');
+        res.redirect('/app/overview');
     } else {
         next();
     }
