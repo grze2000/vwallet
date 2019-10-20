@@ -1,19 +1,39 @@
 <div class="flex-container">
     <article class="flex-panel flex-panel2-3">
         <h2>Historia</h2>
-        <ul class="transactionList">
-            <li class="transaction"><div>Kwota</div><div>Opis</div><div>Data</div></li>
+        <ul class="list">
             <% let transactionList = JSON.parse(transactions) %>
             <% transactionList.forEach(function(transaction) { %>
                 <% let date = new Date(transaction.createdAt) %>
-                <% if(transaction.type == 'coupon') { %>
-                    <li class="transaction green"><div><%= transaction.amount %> zł</div><div>Zrealizowano kupon: <%= transaction.couponCode %></div>
-                <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
-                    <li class="transaction red"><div><%= -transaction.amount %> zł</div><div>Przelew środków do <%= transaction.recipient.firstname+' '+transaction.recipient.lastname+' ('+transaction.recipient.email+')' %><!--<br><%= transaction.description %>--></div>
-                <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
-                    <li class="transaction green"><div><%= transaction.amount %> zł</div><div>Przelew środków od <%= transaction.sender.firstname+' '+transaction.sender.lastname+' ('+transaction.sender.email+')' %></div>
-                <% } %>
-                <div><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1)+"."+date.getFullYear()+"  "+(date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div></li>
+                <li class="list-item">
+                    <% if(transaction.type == 'coupon') { %>
+                        <img src="/img/coupon-icon.png" alt="">
+                    <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                        <img src="/img/transfer-icon2.png" alt="">
+                    <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                        <img src="/img/transfer-icon2.png" alt="">
+                    <% } %>
+                    <div class="list-item-left">
+                        <% if(transaction.type == 'coupon') { %>
+                            <div class="list-item-title green">Zrealizowano kupon: <%= transaction.couponCode %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                            <div class="list-item-title red">Przelew środków do <%= transaction.recipient.firstname+' '+transaction.recipient.lastname+' ('+transaction.recipient.email+')' %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                            <div class="list-item-title green">Przelew środków od <%= transaction.sender.firstname+' '+transaction.sender.lastname+' ('+transaction.recipient.email+')' %></div>
+                        <% } %>
+                        <div class="list-item-description"><%= transaction.description %></div>
+                    </div>
+                    <div class="list-item-right">
+                        <% if(transaction.type == 'coupon') { %>
+                            <div class="list-item-title green"><%= transaction.amount %> zł</div>
+                        <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                            <div class="list-item-title red"><%= -transaction.amount %> zł</div>
+                        <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                            <div class="list-item-title green"><%= transaction.amount %> zł</div>
+                        <% } %>
+                        <div class="list-item-description"><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1)+"."+date.getFullYear() %>&ensp;<%= (date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div>
+                    </div>
+                </li>
             <% }); %>
         </ul>
     </article>

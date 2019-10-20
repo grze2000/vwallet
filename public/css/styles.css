@@ -299,61 +299,11 @@ a.flex-panel:hover {
         height: 200%;
     }
 }
-@keyframes tabLabel {
-    from {
-        width: 100%;
-        left: 0;
-    }
-    to {
-        width: 90%;
-        left: 5%;
-    }
-}
-.transaction {
-    display: flex;
-    flex-direction: row;
-    padding: 0;
-    border-bottom: 1px solid silver;
-    overflow: hidden;
-    max-height: 0px;
-    opacity: 0;
-    animation: slideDown 0.8s ease-out 0s 1 forwards;
-}
-.transaction:last-child {
-    border: 0;
-}
-.transaction:not(:first-child):hover {
-    background-color: #fff;
-    cursor: pointer;
-    box-shadow: 0 0 15px -5px rgba(0,0,0,0.25);
-}
 .green {
     color: green;
 }
 .red {
     color: red;
-}
-.transaction > div:first-child {
-    flex-basis: 10%;
-    font-weight: bold;
-}
-.transaction > div:nth-child(2) {
-    flex-basis: 60%;
-}
-.transaction > div:nth-child(3) {
-    flex-basis: 30%;
-}
-.transactionList {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-}
-@keyframes slideDown {
-  to {
-      opacity: 1;
-      max-height: 50px;
-      padding: 10px 15px;
-  }
 }
 .form2 > div {
     padding: 8px;
@@ -391,13 +341,18 @@ a.flex-panel:hover {
     box-sizing: border-box;
 }
 .list > li {
-    margin: 12px 0;
+    margin: 8px 0;
 }
 .list-item {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    border-radius: 2px;
+    padding: 5px;
+}
+.list-item:hover {
+    background-color: #f7f7f7;
 }
 .list-item-right {
     margin-left: auto;

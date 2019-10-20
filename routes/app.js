@@ -120,7 +120,7 @@ router.get('/overview', auth.checkAuth, (req, res) => {
                     }
                 }
                 for(let value of values) {
-                    colors.push(value >= 0 ? 'rgb(100, 255, 132)' : 'rgb(255, 99, 132)');
+                    colors.push(value >= 0 ? 'rgb(50, 168, 82)' : 'rgb(226, 13, 5)');
                 }
                 const chartData = {
                     labels: start > date.getMonth() ? months.slice(start, months.length).concat(months.slice(0, date.getMonth()+1)) : months.slice(start, date.getMonth()+1),
