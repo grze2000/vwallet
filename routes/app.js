@@ -101,7 +101,6 @@ router.get('/overview', auth.checkAuth, (req, res) => {
                     ]
                 }}
             ]).exec((err, people) => {
-                console.log(people[0].senders[0].list);
                 const data = tr.length > 0 ? tr[0].data : {};
                 const expenses = tr.length > 0 ? tr[0].expenses : {min: 0, avg: 0, max: 0};
                 const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
@@ -139,7 +138,7 @@ router.get('/overview', auth.checkAuth, (req, res) => {
 
 router.get('/payments', auth.checkAuth, (req, res) => {
     Transactions.find({$or: [{recipient: req.user._id}, {sender: req.user._id}]}).populate('recipient').populate('sender').sort({createdAt: 'desc'}).exec((err, userTransactions) => {
-        res.render('app', {user: req.user, page: 'payments', transactions: JSON.stringify(userTransactions)});
+        res.render('app', {user: req.user, page: 'payments', transactions: JSON.stringify(userTransactions), recipient: (typeof(req.query.recipient) != 'undefined' ? req.query.recipient : false)});
     });
 });
 

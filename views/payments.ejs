@@ -21,10 +21,10 @@
         <form action="/app/transfer" method="POST" class="form2">
             <h1>Wyślij środki</h1>
             <div>
-                <input type="email" name="email" placeholder="Email*" required>
+                <input type="email" name="email" placeholder="Email*" value="<%= (recipient ? recipient : '') %>" required>
             </div>
             <div>
-                <input type="number" min="0" name="amount" placeholder="Kwota*" step="0.01" required>
+                <input type="number" min="0" name="amount" placeholder="Kwota*" step="0.01" required <%= (recipient ? 'autofocus' : '') %>>
             </div>
             <textarea maxlength="250" rows="3" placeholder="Opis" name="description"></textarea>
             <div>
