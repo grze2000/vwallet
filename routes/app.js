@@ -17,47 +17,73 @@ const find = function(q, dict) {
 router.get('/overview', auth.checkAuth, (req, res) => {
     const date = new Date();
     Transactions.aggregate([
-        {$match: {$or: [
-                {"recipient": req.user._id},
-                {"sender": req.user._id}
-            ]}
-        },
-        {$group: {
-            _id: {$month: '$createdAt'},
-            balance: {$sum: {$multiply: [
-                '$amount', {$cond: [
-                    {$eq: [
-                        "$recipient",
-                        req.user._id
-                    ]}, 1, -1
-                ]}
-            ]}},
-            expenses: {$sum: {$cond: [
-                {$eq: [
-                    "$sender",
-                    req.user._id
-                ]}, "$amount", 0
-            ]}}
-
-            }
-        },
-        {$group: {
-            _id: 1,
-            data: {$push: {
-                _id: "$_id",
-                balance: "$balance"
-            }},
-            exp: {$push: "$expenses"}
-        }},
-        {$project: {
-            data: 1,
-            expenses: {
-                min: {$min: "$exp"},
-                avg: {$avg: "$exp"},
-                max: {$max: "$exp"}
-            }
+        {$facet: {
+            expenses: [
+                {$match: {$or: [
+                        {"recipient": req.user._id},
+                        {"sender": req.user._id}
+                    ]}
+                },
+                {$group: {
+                    _id: {$month: '$createdAt'},
+                    balance: {$sum: {$multiply: [
+                        '$amount', {$cond: [
+                            {$eq: [
+                                "$recipient",
+                                req.user._id
+                            ]}, 1, -1
+                        ]}
+                    ]}},
+                    expenses: {$sum: {$cond: [
+                        {$eq: [
+                            "$sender",
+                            req.user._id
+                        ]}, "$amount", 0
+                    ]}}
+                }},
+                {$group: {
+                    _id: 1,
+                    data: {$push: {
+                        _id: "$_id",
+                        balance: "$balance"
+                    }},
+                    exp: {$push: "$expenses"}
+                }},
+                {$project: {
+                    data: 1,
+                    expenses: {
+                        min: {$min: "$exp"},
+                        avg: {$avg: "$exp"},
+                        max: {$max: "$exp"}
+                    }
+                }}
+            ],
+            actualMonth: [
+                {$match: {
+                  "sender": req.user._id,
+                }},
+                {$group: {
+                    _id: 1,
+                    expenses: {$push: {$cond: [
+                        {$and: [
+                            {$eq: [
+                                {$month: "$createdAt"},
+                                date.getMonth()+1
+                            ]},
+                            {$eq: [
+                                {$year: "$createdAt"},
+                                date.getFullYear()
+                            ]}
+                        ]}, "$amount", null
+                    ]}}
+                }},
+                {$project: {
+                    _id: 0,
+                    value: {$sum: "$expenses"}
+                }}
+            ]
         }}
-    ]).exec((err, tr) => {
+    ]).exec((err, stats) => {
         Transactions.find({$or: [{recipient: req.user._id}, {sender: req.user._id}]}).populate('recipient').populate('sender').sort({createdAt: 'desc'}).limit(5).exec((err, userTransactions) => {
             Transactions.aggregate([
                 {$facet: {
@@ -101,8 +127,22 @@ router.get('/overview', auth.checkAuth, (req, res) => {
                     ]
                 }}
             ]).exec((err, people) => {
-                const data = tr.length > 0 ? tr[0].data : {};
-                const expenses = tr.length > 0 ? tr[0].expenses : {min: 0, avg: 0, max: 0};
+                let peopleArr = [];
+                if(people[0].senders.length > 0 && people[0].recipients.length > 0) {
+                    peopleArr = people[0].senders[0].list.concat(people[0].recipients[0].list);
+                    for(let i=0; i<peopleArr.length; i++) {
+                        for(let j=i+1; j<peopleArr.length; j++) {
+                            if(peopleArr[i]._id.toString() == peopleArr[j]._id.toString()) {
+                                peopleArr.splice(j--, 1);
+                            }
+                        }
+                    }
+                }
+                const stats2 = {
+                  expenses: stats[0].expenses.length > 0 ? stats[0].expenses[0].expenses : {min: 0, avg: 0, max: 0},
+                  actualMonth: stats[0].actualMonth.length > 0 ? stats[0].actualMonth[0].value : 0
+                };
+                const data = stats[0].expenses.length > 0 ? stats[0].expenses[0].data : {};
                 const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
                 const start = date.getMonth() >= 6 ? date.getMonth()-5 : 7+date.getMonth();
                 let values = [];
@@ -130,7 +170,7 @@ router.get('/overview', auth.checkAuth, (req, res) => {
                         data: values
                     }]
                 };
-                res.render('app', {user: req.user, page: 'overview', chartData: chartData, expenses: expenses, transactions: JSON.stringify(userTransactions), people: people});
+                res.render('app', {user: req.user, page: 'overview', chartData: chartData, stats: stats2, transactions: JSON.stringify(userTransactions), people: peopleArr});
             });
         });
     });

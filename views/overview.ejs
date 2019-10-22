@@ -11,7 +11,7 @@
         </div>
         <div class="chartText expenses">
             <span>W tym miesiącu:</span>
-            <h1>XXX</h1>
+            <h3><%= stats.actualMonth %> zł</h3>
         </div>
     </article>
     <article class="flex-panel flex-panel1-3">
@@ -30,7 +30,7 @@
     <article class="flex-panel flex-panel1-3">
         Osoby
         <ul class="list">
-            <% people[0].senders[0].list.forEach(function(person) { %>
+            <% people.forEach(function(person) { %>
                 <li class="list-item">
                     <img src="/img/user-icon.png" alt="">
                     <div class="list-item-left">
@@ -49,7 +49,7 @@
         </ul>
     </article>
     <article class="flex-panel flex-panel1-3">
-        <canvas id="chart1" style="width:100%;"></canvas>
+        <canvas id="chart1"></canvas>
     </article>
     <article class="flex-panel flex-panel1-3">
         Ostatnie transakcje
@@ -97,7 +97,6 @@
             type: 'bar',
             data: <%- JSON.stringify(chartData) %>,
             options: {
-                responsive: false,
                 legend: {
                     display: false
                 },
@@ -112,7 +111,7 @@
         });
 
     var ctx2 = document.getElementById('chart2').getContext('2d');
-    var values = [<%= [expenses.min, Math.round(expenses.avg*100)/100, expenses.max] %>];
+    var values = [<%= [stats.expenses.min, Math.round(stats.expenses.avg*100)/100, stats.expenses.max] %>];
     var balanceChart = new Chart(ctx2, {
         type: 'doughnut',
         data: {
