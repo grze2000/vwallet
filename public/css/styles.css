@@ -196,7 +196,11 @@ form {
     border: 1px solid #0B5057;
     border-radius: 5px;
     padding: 8px 15px;
-    width: 300px;
+    width: 20vw;
+    box-sizing: border-box;
+}
+.form h1, .form h2, .form h3 {
+    margin: 5px 0;
 }
 .gradient {
     background-image: linear-gradient(135deg, #0B505750, #ffffff);
@@ -264,40 +268,15 @@ a.flex-panel:hover {
     height: 64px;
     margin-right: 10px;
 }
+.flex-panel-auto-height {
+    align-self: flex-start;
+}
 .app-body {
     display: flex;
     flex-direction: column;
 }
 .app-main {
     overflow: auto;
-}
-@media only screen and (max-width: 700px) {
-    header {
-        height: 100%;
-        box-sizing: border-box;
-    }
-    .header-columns {
-        flex-direction: column;
-    }
-    .header-columns > *, .menu > li {
-        margin: 10px 0;
-    }
-    .columns {
-        flex-direction: column;
-    }
-    img:not(.icon) {
-        width: 100%;
-        height: auto;
-    }
-    .image {
-        background-image: none;
-        background-color: #0B5057 !important;
-    }
-}
-@media only screen and (max-height: 500px) {
-    .image {
-        height: 200%;
-    }
 }
 .green {
     color: green;
@@ -325,9 +304,6 @@ a.flex-panel:hover {
 .balance {
     position: absolute;
     top: 40%;
-}
-#chart2 {
-    z-index: 999;
 }
 .expenses {
     position: absolute;
@@ -371,4 +347,100 @@ a.flex-panel:hover {
 .list > li img {
     height: 24px;
     width: 24px;
+}
+.transaction-list {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.header-mobile > img {
+    display: none;
+}
+@media only screen and (max-width: 700px) {
+    .header-mobile > img {
+        display: inline-block;
+    }
+    .header-mobile:not(.header-mobile-show) article {
+        display: none;
+    }
+    .header-mobile-show {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        z-index: 999;
+    }
+    .header-full {
+        height: 100%;
+        box-sizing: border-box;
+    }
+    .header-columns {
+        flex-direction: column;
+    }
+    .header-columns > *, .menu > li {
+        margin: 10px 0;
+    }
+    .columns {
+        flex-direction: column;
+    }
+    .image {
+        background-image: none;
+        background-color: #0B5057 !important;
+        height: auto;
+    }
+    .flex-container {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
+    .flex-panel {
+        padding: 15px 0;
+        flex-basis: 100%;
+    }
+    .flex-panel-auto-height {
+        align-self: auto;
+    }
+    .form2 input[type=text], .form2 input[type=email], .form2 input[type=number], .form2 textarea {
+        width: 90%;
+        box-sizing: border-box;
+    }
+    .form2 {
+        width: 100%;
+    }
+    .transaction-list > img {
+        display: none;
+    }
+    .transaction-list .list-item-right {
+        margin-left: 0;
+        text-align: center;
+        order: 0;
+        margin-bottom: 15px;
+    }
+    .transaction-list .list-item-left {
+        text-align: center;
+        order: 1;
+        margin-bottom: 8px;
+    }
+    .transaction-list {
+        flex-direction: column;
+        border-bottom: 1px solid #e9e9e9;
+    }
+    .transaction-list:last-child {
+        border: 0;
+    }
+    .form {
+        box-shadow: none;
+        margin: 0;
+        display: block;
+        padding: 20px 0;
+        background-color: inherit;
+    }
+    .form input[type=text], .form input[type=email], .form input[type=password], .form input[type=number] {
+        width: 80vw;
+    }
+}
+@media only screen and (max-height: 500px) {
+    .image {
+        height: 200%;
+        box-sizing: border-box;
+    }
 }

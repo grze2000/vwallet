@@ -5,7 +5,7 @@
             <% let transactionList = JSON.parse(transactions) %>
             <% transactionList.forEach(function(transaction) { %>
                 <% let date = new Date(transaction.createdAt) %>
-                <li class="list-item">
+                <li class="list-item transaction-list">
                     <% if(transaction.type == 'coupon') { %>
                         <img src="/img/coupon-icon.png" alt="">
                     <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
@@ -37,7 +37,7 @@
             <% }); %>
         </ul>
     </article>
-    <article class="flex-panel flex-panel1-3">
+    <article class="flex-panel flex-panel1-3 flex-panel-auto-height">
         <form action="/app/transfer" method="POST" class="form2">
             <h1>Wyślij środki</h1>
             <div>
@@ -46,7 +46,9 @@
             <div>
                 <input type="number" min="0" name="amount" placeholder="Kwota*" step="0.01" required <%= (recipient ? 'autofocus' : '') %>>
             </div>
-            <textarea maxlength="250" rows="3" placeholder="Opis" name="description"></textarea>
+            <div>
+                <textarea maxlength="250" rows="3" placeholder="Opis" name="description"></textarea>
+            </div>
             <div>
                 <input type="submit" name="transfer" value="Wyślij" class="btn btn-color">
             </div>

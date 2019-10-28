@@ -7,11 +7,11 @@ const auth = require('../middlewares/auth');
 const Users = require('../models/users');
 
 router.get('/', auth.checkNotAuth, function(req, res) {
-    res.render('index');
+    res.render('index', {page: 'home'});
 });
 
 router.get('/login', auth.checkNotAuth, function(req, res) {
-    res.render('login', {message: req.flash('error')});
+    res.render('index', {page: 'login', message: req.flash('error')});
 });
 
 router.post('/login', function(req, res, next) {
@@ -22,12 +22,12 @@ router.post('/login', function(req, res, next) {
             failureFlash: true
         })(req, res, next);
     } else {
-        res.render('login', {message: 'Wypelnij wszystkie pola'});
+        res.render('index', {page: 'login', message: 'Wypelnij wszystkie pola'});
     }
 });
 
 router.get('/register', auth.checkNotAuth, function(req, res) {
-    res.render('register');
+    res.render('index', {page: 'register'});
 });
 
 router.post('/register', [
@@ -51,16 +51,16 @@ router.post('/register', [
     ], function(req, res, next) {
     const { firstname, lastname, email, password, passwordRepeat } = req.body;
     if(!firstname || !lastname || !email || !password || !passwordRepeat ) {
-        res.render('register', {error: {msg: 'Wypełnij wszystkie pola'}, values: req.body});
+        res.render('index', {page: 'register', error: {msg: 'Wypełnij wszystkie pola'}, values: req.body});
     } else {
         const errors = validationResult(req);
 
         if(!errors.isEmpty()) {
-            res.render('register', {error: errors.array()[0], values: req.body});
+            res.render('index', {page: 'register', error: errors.array()[0], values: req.body});
         } else {
             Users.findOne({email: email}, (err, user) => {
                 if(user) {
-                    res.render('register', {error: {msg: 'Użytkownika o podanym adresie email już istnieje'}, values: req.body});
+                    res.render('index', {page: 'register', error: {msg: 'Użytkownika o podanym adresie email już istnieje'}, values: req.body});
                 } else {
                     const newUser = new Users({
                         firstname,
