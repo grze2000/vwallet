@@ -58,28 +58,46 @@ router.get('/overview', auth.checkAuth, (req, res) => {
                     }
                 }}
             ],
-            actualMonth: [
+            actualMonthExpences: [
+                {$addFields: {
+                    month: {$month: "$createdAt"},
+                    year: {$year: "$createdAt"}
+                }},
                 {$match: {
-                  "sender": req.user._id,
+                    "sender": req.user._id,
+                    "month": date.getMonth()+1,
+                    "year": date.getFullYear()
                 }},
                 {$group: {
                     _id: 1,
-                    expenses: {$push: {$cond: [
-                        {$and: [
-                            {$eq: [
-                                {$month: "$createdAt"},
-                                date.getMonth()+1
-                            ]},
-                            {$eq: [
-                                {$year: "$createdAt"},
-                                date.getFullYear()
-                            ]}
-                        ]}, "$amount", null
-                    ]}}
+                    expenses: {$push: "$amount"},
+                    count: {$sum: 1}
                 }},
                 {$project: {
                     _id: 0,
-                    value: {$sum: "$expenses"}
+                    value: {$sum: "$expenses"},
+                    count: 1
+                }}
+            ],
+            actualMonthRevenues: [
+                {$addFields: {
+                    month: {$month: "$createdAt"},
+                    year: {$year: "$createdAt"}
+                }},
+                {$match: {
+                    "recipient": req.user._id,
+                    "month": date.getMonth()+1,
+                    "year": date.getFullYear()
+                }},
+                {$group: {
+                    _id: 1,
+                    revenues: {$push: "$amount"},
+                    count: {$sum: 1}
+                }},
+                {$project: {
+                    _id: 0,
+                    value: {$sum: "$revenues"},
+                    count: 1
                 }}
             ]
         }}
@@ -140,8 +158,10 @@ router.get('/overview', auth.checkAuth, (req, res) => {
                 }
                 const stats2 = {
                   expenses: stats[0].expenses.length > 0 ? stats[0].expenses[0].expenses : {min: 0, avg: 0, max: 0},
-                  actualMonth: stats[0].actualMonth.length > 0 ? stats[0].actualMonth[0].value : 0
+                  actualMonthExpences: stats[0].actualMonthExpences.length > 0 ? stats[0].actualMonthExpences[0] : {count: 0, value: 0},
+                  actualMonthRevenues: stats[0].actualMonthRevenues.length > 0 ? stats[0].actualMonthRevenues[0] : {count: 0, value: 0}
                 };
+                
                 const data = stats[0].expenses.length > 0 ? stats[0].expenses[0].data : {};
                 const months = ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'];
                 const start = date.getMonth() >= 6 ? date.getMonth()-5 : 7+date.getMonth();

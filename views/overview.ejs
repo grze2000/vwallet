@@ -1,6 +1,45 @@
+<%
+function formatText(text) {
+    if(text.toString() == '1') {
+        return "przelew";
+    } else if(['2', '3', '4'].includes(text.toString().charAt(text.length-1))) {
+        return "przelewy";
+    } else {
+        return "przelewów";
+    }
+}
+%>
 <div class="flex-container">
     <article class="flex-panel flex-panel1-3">
         Statystyki
+        <ul class="list">W tym miesiącu:
+            <li class="list-item">
+                <img src="/img/transfer-icon2.png">
+                <div class="list-item-left">
+                    Wykonałeś <b><%= stats.actualMonthExpences.count %></b>
+                    <%= formatText(stats.actualMonthExpences.count); %>
+                </div>
+            </li>
+            <li class="list-item">
+                <img src="/img/transfer-icon2.png">
+                <div class="list-item-left">
+                    Odebrałeś <b><%= stats.actualMonthRevenues.count %></b>
+                    <%= formatText(stats.actualMonthRevenues.count); %>
+                </div>
+            </li>
+            <li class="list-item">
+                <img src="/img/payment-icon2.png">
+                <div class="list-item-left">
+                    Wydałeś <b><%= stats.actualMonthExpences.value %>zł</b>
+                </div>
+            </li>
+            <li class="list-item">
+            <img src="/img/payment-icon2.png">
+                <div class="list-item-left">
+                    Otrzymałeś <b><%= stats.actualMonthRevenues.value %>zł</b>
+                </div>
+            </li>
+        </ul>
     </article>
     <article class="flex-panel flex-panel1-3" style="position: relative; padding-bottom: 70px;">
         <canvas id="chart2"></canvas>
@@ -11,7 +50,7 @@
         </div>
         <div class="chartText expenses">
             <span>W tym miesiącu:</span>
-            <h3><%= stats.actualMonth %> zł</h3>
+            <h3><%= stats.actualMonthExpences.value %> zł</h3>
         </div>
     </article>
     <article class="flex-panel flex-panel1-3">
