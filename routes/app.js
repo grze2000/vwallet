@@ -210,6 +210,10 @@ router.get('/coupon', auth.checkAuth, (req, res) => {
     res.render('app', {user: req.user, page: 'coupon'});
 });
 
+router.get('/addcard', auth.checkAuth, (req, res) => {
+    res.render('app', {user: req.user, page: 'addcard'});
+});
+
 router.post('/coupon', auth.checkAuth, (req, res) => {
     if(req.body.code) {
         req.body.code = req.body.code.toUpperCase();

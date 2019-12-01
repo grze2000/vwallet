@@ -9,6 +9,7 @@
         <link rel="shortcut icon" href="/img/favicon.ico">
         <link rel="stylesheet" href="/css/styles.css">
         <title>VWallet</title>
+        <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body class="app-body">
         <header class="header-filled header-columns header-mobile">
@@ -36,6 +37,8 @@
                 <%- include topup %>
             <% } else if(page == 'coupon') { %>
                 <%- include coupon %>
+            <% } else if(page == 'addcard') { %>
+                <%- include addcard %>
             <% } %>
         </main>
         <footer class="footer-fixed-bottom">Copyright &copy; 2019 Grzegorz Babiarz</footer>

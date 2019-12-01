@@ -59,14 +59,16 @@ ul {
 main {
     text-align: center;
 }
-.inputCoupon {
+input[type="text"] {
     padding: 6px 10px;
     border-radius: 20px;
     border: 1px solid #0B5057;
-    text-transform: uppercase;
 }
 input[type=text]:focus {
     outline: 0;
+}
+.inputCoupon {
+    text-transform: uppercase;
 }
 form {
     padding: 10px 0;
@@ -354,6 +356,9 @@ a.flex-panel:hover {
 }
 .header-mobile > img {
     display: none;
+}
+.form-group {
+    padding: 5px 0;
 }
 @media only screen and (max-width: 700px) {
     .header-mobile > img {

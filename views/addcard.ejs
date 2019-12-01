@@ -1,0 +1,27 @@
+<div class="flex-container">
+    <div class="flex-panel flex-panel1-2">
+            <h2>Dodaj kartę kredytową</h2>
+            <form action="/app/addcard" method="post" autocomplete="off">
+                <div class="form-group">
+                    <input type="text" name="card" maxlength="19" minlength="19" placeholder="Numer karty" id="card" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="expirationDate" placeholder="Data ważności" id="expirationDate" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="cvv" maxlength="3" minlength="3" placeholder="Kod CVV" id="cvv" required>
+                </div>
+                <div class="form-group" id="card-type"></div>
+                <div class="form-group">
+                    <input type="submit" value="Dodaj kartę" class="btn btn-filled-color">
+                </div>
+            </form>
+            <% if(typeof message !== 'undefined') { %>
+                <div class="alert"><%= message %></div>
+            <% } %>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/inputmask.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/jquery.inputmask.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/inputmask/inputmask.regex.extensions.min.js"></script>
+<script src="/js/credit-card-form.js"></script>
