@@ -3,13 +3,13 @@
             <h2>Dodaj kartę kredytową</h2>
             <form action="/app/addcard" method="post" autocomplete="off">
                 <div class="form-group">
-                    <input type="text" name="card" maxlength="19" minlength="19" placeholder="Numer karty" id="card" required>
+                    <input type="text" name="card" maxlength="19" minlength="19" placeholder="Numer karty" id="card" value="<%= typeof(values) != 'undefined' ? values.card : '' %>" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="expirationDate" placeholder="Data ważności" id="expirationDate" required>
+                    <input type="text" name="expirationDate" placeholder="Data ważności" id="expirationDate" value="<%= typeof(values) != 'undefined' ? values.expirationDate : '' %>" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="cvv" maxlength="3" minlength="3" placeholder="Kod CVV" id="cvv" required>
+                    <input type="text" name="cvv" maxlength="3" minlength="3" placeholder="Kod CVV" id="cvv" value="<%= typeof(values) != 'undefined' ? values.cvv : '' %>" required>
                 </div>
                 <div class="form-group" id="card-type"></div>
                 <div class="form-group">

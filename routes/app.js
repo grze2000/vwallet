@@ -241,6 +241,19 @@ router.post('/coupon', auth.checkAuth, (req, res) => {
     }
 });
 
+router.post('/addcard', auth.checkAuth, (req, res) => {
+    if(!/^(?:[0-9]{4}-){3}[0-9]{4}$/.test(req.body.card)) {
+        res.render('app', {user: req.user, page: 'addcard', message: 'Podaj prawidłowy numer karty kredytowej', values: req.body});
+    } else if(!/^0[1-9]|1[0-2]\/[0-9]{2}$/.test(req.body.expirationDate)) {
+        res.render('app', {user: req.user, page: 'addcard', message: 'Podaj prawidłową datę ważności', values: req.body});
+    } else if(!/^[0-9]{3}$/.test(req.body.cvv)) {
+        res.render('app', {user: req.user, page: 'addcard', message: 'Podaj prawidłowy kod CVV', values: req.body});
+    } else {
+        // TODO: Add card to database
+        res.render('app', {user: req.user, page: 'addcard', message: 'Nie można powiązać karty z kontem'});
+    }
+});
+
 router.post('/transfer', auth.checkAuth, (req, res) => {
     Transactions.find({$or: [{recipient: req.user._id}, {sender: req.user._id}]}).sort({createdAt: 'desc'}).exec((err, userTransactions) => {
         if(req.body.email && req.body.amount) {
