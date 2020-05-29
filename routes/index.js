@@ -6,6 +6,8 @@ const bcrypt = require('bcryptjs');
 const auth = require('../middlewares/auth');
 const Users = require('../models/users');
 
+const baseUrl = process.env.BASE_URL || '';
+
 router.get('/', auth.checkNotAuth, function(req, res) {
     res.render('index', {page: 'home'});
 });
@@ -17,8 +19,8 @@ router.get('/login', auth.checkNotAuth, function(req, res) {
 router.post('/login', function(req, res, next) {
     if(req.body.email && req.body.password) {
         passport.authenticate('local', {
-            successRedirect: process.env.BASE_URL+'/app/overview',
-            failureRedirect: process.env.BASE_URL+'/login',
+            successRedirect: baseUrl+'/app/overview',
+            failureRedirect: baseUrl+'/login',
             failureFlash: true
         })(req, res, next);
     } else {
@@ -74,7 +76,7 @@ router.post('/register', [
                             newUser.password = hash;
                             newUser.save((err, user) => {
                                 if(err) console.log(err);
-                                res.redirect(process.env.BASE_URL+'/login');
+                                res.redirect(baseUrl+'/login');
                             });
                         });
                     });
@@ -86,7 +88,7 @@ router.post('/register', [
 
 router.get('/logout', function(req, res) {
     req.logOut();
-    res.redirect(process.env.BASE_URL+'/');
+    res.redirect(baseUrl+'/');
 });
 
 module.exports = router;
