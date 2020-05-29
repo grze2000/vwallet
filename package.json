@@ -11,14 +11,14 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
-    "dotenv": "^8.1.0",
-    "ejs": "^2.6.2",
+    "dotenv": "^8.2.0",
+    "ejs": "^2.7.4",
     "express": "^4.17.1",
-    "express-session": "^1.16.2",
-    "express-validator": "^6.1.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.5.0",
     "mongoose": "^5.7.5",
-    "mongoose-type-email": "^1.0.11",
-    "passport": "^0.4.0",
+    "mongoose-type-email": "^1.0.12",
+    "passport": "^0.4.1",
     "passport-local": "^1.0.0"
   }
 }

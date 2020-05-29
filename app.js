@@ -13,9 +13,9 @@ const errorsHandler = require('./middlewares/errors');
 
 require('./config/passport')(passport);
 
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true}, (err) => {
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
     if(err) throw err;
-    console.log('Conected to database');
+    console.log('Connected to database');
 });
 
 app.set('views', path.join(__dirname, 'views'));
