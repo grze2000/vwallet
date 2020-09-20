@@ -19,9 +19,15 @@ router.get('/overview', auth.checkAuth, (req, res) => {
     Transactions.aggregate([
         {$facet: {
             expenses: [
-                {$match: {$or: [
-                        {"recipient": req.user._id},
-                        {"sender": req.user._id}
+                {$addFields: {"year": {$year: '$createdAt'}}},
+                {$match: {$and: [
+                        {$or: [
+                            {"recipient": req.user._id},
+                            {"sender": req.user._id}
+                        ]},
+                        {
+                            "year": new Date().getFullYear()
+                        }
                     ]}
                 },
                 {$group: {
