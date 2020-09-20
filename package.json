@@ -1,13 +1,13 @@
 {
   "name": "vwallet",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Digital wallet application made with Node.js, Express and MongoDB",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Grzegorz Babiarz",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-flash": "^0.1.1",
@@ -20,5 +20,9 @@
     "mongoose-type-email": "^1.0.12",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grze2000/vwallet.git"
   }
 }
