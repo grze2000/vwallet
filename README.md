@@ -4,7 +4,7 @@
 
 Digital wallet application made with Node.js, Express and MongoDB
 
-![](https://grzegorzbabiarz.com/img/vwallet2.jpg)
+![](https://grzegorzbabiarz.com/public/img/vwallet/vwallet2.jpg)
 
 ## Built With
 
