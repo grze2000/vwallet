@@ -16,7 +16,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.5.0",
-    "mongoose": "^5.7.5",
+    "mongoose": "^5.12.7",
     "mongoose-type-email": "^1.0.12",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
